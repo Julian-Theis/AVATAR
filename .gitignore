@@ -1,1 +1,7 @@
+.idea/
 
+data/pns/*
+!data/pns/.gitkeep
+
+data/variants/*
+!data/variants/.gitkeep
