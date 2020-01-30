@@ -1,25 +1,16 @@
-from pm4py.objects.petri.importer import factory as pnml_importer
 import os
-from processmining.algorithm.playout import Player
-from sklearn.model_selection import train_test_split
-import numpy as np
 
-def writeToFile(file, lst):
-    with open(file, 'w') as outfile:
-        for entry in lst:
-            print_trace = ""
-            for index, ev in enumerate(entry):
-                if index == 0:
-                    print_trace = str(ev).replace(" ", "")
-                else:
-                    print_trace = print_trace + " " + str(ev).replace(" ", "")
-            outfile.write(print_trace.strip() + "\n")
+from pm4py.objects.petri.importer import factory as pnml_importer
+from sklearn.model_selection import train_test_split
+
+from processmining.playout import Player
+from systems.util import writeToFile
 
 if __name__ == "__main__": 
-    pn = "pb_system_1_5.pnml"
-    f_pop = "pb_system_1_5_pop.txt"
-    f_train = "pb_system_1_5_train.txt"
-    f_test = "pb_system_1_5_test.txt"
+    pn = "pb_system_4_1.pnml"
+    f_pop = "pb_system_4_1_10_pop.txt"
+    f_train = "pb_system_4_1_10_train.txt"
+    f_test = "pb_system_4_1_10_test.txt"
 
     f_pn = os.path.join(pn)
     net, initial_marking, final_marking = pnml_importer.apply(f_pn)
@@ -31,7 +22,6 @@ if __name__ == "__main__":
 
 
     print("*** ALL POSSIBLE TRACES ***")
-    #for trace in gen_traces: print(trace)
     print(len(gen_traces))
     writeToFile(f_pop, gen_traces)
 
@@ -50,7 +40,7 @@ if __name__ == "__main__":
             break
 
     indices = [i for i in range(0, len(gen_traces))]
-    train_indices, test_indices = train_test_split(indices, train_size=0.7)
+    train_indices, test_indices = train_test_split(indices, train_size=0.1)
 
     for index, trace in enumerate(gen_traces):
         if index in train_indices:
