@@ -1,4 +1,4 @@
-from systems.playout.util import biased_playout
+from util.playout import biased_playout
 
 if __name__ == "__main__": 
     pn = "data/systems/pb_system_4_1.pnml"

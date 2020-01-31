@@ -4,7 +4,7 @@ import argparse
 
 from pm4py.objects.petri.importer import pnml as pnml_importer
 from pm4py.algo.simulation.playout.versions import basic_playout as playout
-from systems.playout.util import readVariantFile, getMaxVariantLength
+from util.playout import readVariantFile, getMaxVariantLength
 
 def intersection(lst1, lst2):
     ls1 = []

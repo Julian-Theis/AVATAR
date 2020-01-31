@@ -1,4 +1,4 @@
-from systems.playout.util import standard_playout
+from util.playout import standard_playout
 
 if __name__ == "__main__": 
     pn = "data/systems/pb_system_3_6.pnml"

@@ -11,3 +11,6 @@ data/avatar/sgans/*
 
 data/avatar/variants/*
 !data/avatar/variants/.gitkeep
+
+data/avatar/train_data/*
+!data/avatar/train_data/.gitkeep
