@@ -5,3 +5,9 @@ data/pns/*
 
 data/variants/*
 !data/variants/.gitkeep
+
+data/avatar/sgans/*
+!data/avatar/sgans/.gitkeep
+
+data/avatar/variants/*
+!data/avatar/variants/.gitkeep
