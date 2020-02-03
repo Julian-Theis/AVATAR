@@ -205,9 +205,10 @@ if __name__ == "__main__":
     top_10_values = [tps_eval[i] for i in top_10_idx]
 
     ranks = dict()
+    rank_id = 10
     for i in top_10_idx:
         obj = dict()
-        print("*** RANK " + str(i+1) + " ****")
+        print("*** RANK " + str(rank_id) + " ****")
         print("Suffix: ", xs[i])
         print("TP observed: ", tps_train[i])
         print("TP eval: ", tps_eval[i])
@@ -216,6 +217,7 @@ if __name__ == "__main__":
         obj["tp_obs"] = tps_train[i]
         obj["tp_eval"] = tps_eval[i]
         ranks[str(i+1)] = obj
+        rank_id -= 1
 
     iw = json.dumps(ranks)
     f = open(os.path.join("data/avatar/sgans", system, str(job_id),

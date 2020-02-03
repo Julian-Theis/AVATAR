@@ -131,7 +131,7 @@ class LoadRelgan():
             dat = data[(n_batches) * self.batch_size:, ]
             n_samples = dat.shape[0]
 
-            print(n_samples)
+            #print(n_samples)
 
             missing = self.batch_size - dat.shape[0]
             dat = np.concatenate((dat, np.zeros((missing, dat.shape[1]), dtype=float)), axis=0)

@@ -37,13 +37,17 @@ def intersection(lst1, lst2):
 
     return list(set(ls1) & set(ls2))
 
-def load_data(system, suffix, job):
+def load_data(system, suffix, job, strategy=None):
     f_train = "data/variants/" + system + "_train.txt"
     f_test = "data/variants/" + system + "_test.txt"
     f_pop = "data/variants/" + system + "_pop.txt"
-
     f_eval = "data/avatar/train_data/" + system + "_eval.txt"
-    f_gan = "data/avatar/variants/" + system + "_relgan_" + str(suffix) + "_j" + str(job) + ".txt"
+
+    if strategy is None:
+        f_gan = "data/avatar/variants/" + system + "_relgan_" + str(suffix) + "_j" + str(job) + ".txt"
+    else:
+        f_gan = "data/avatar/variants/" + system + "_relgan_" + str(suffix) + "_j" + str(job) + "_" + strategy + ".txt"
+
 
     train = readVariantFile(f_train, unique=False)
     test = readVariantFile(f_test, unique=False)
@@ -129,14 +133,17 @@ def eval_sgan_single(system, suffix, job):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-suffix', '--suffix', help='Suffix (selected epoch, e.g. 1981)', required=True)
+    parser.add_argument('-sfx', '--suffix', help='Suffix (selected epoch, e.g. 1981)', required=True)
     parser.add_argument('-s', '--system', help='System name', required=True)
-    parser.add_argument('-j', '--job_id', help='Job ID (0,1)', required=True)
+    parser.add_argument('-j', '--job', help='Job (0,1)', required=True)
+    parser.add_argument('-strategy', '--strategy', help='naive/mh', required=True)
 
     args = parser.parse_args()
 
-    gan_type = args.gantype
-    dataset = args.dataset
+    system = args.system
     suffix = int(args.suffix)
-    job = args.jobid
+    job = int(args.job)
+    strategy = args.strategy
 
+    train, test, eval, pop, gan = load_data(system, suffix, job, strategy=strategy)
+    evaluate(suffix, train, test, eval, pop, gan)
