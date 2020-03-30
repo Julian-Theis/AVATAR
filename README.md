@@ -1,5 +1,16 @@
 # AVATAR
-AdVersarial system vAriant AppRoximation
+This project is the implementation of the *AdVersarial system vAriant AppRoximation* (AVATAR) approach described in the paper [Adversarial System Variant Approximation to Quantify Process Model Generalization](https://arxiv.org/abs/2003.12168) by [Julian Theis](http://julian-theis.github.io) and [Houshang Darabi](https://scholar.google.com/citations?user=PVzYdvoAAAAJ). Both authors are with the [Process Mining and Intelligent System Analytics Team (PROMINENT)](https://prominent.uic.edu/) at the University of Illinois at Chicago, USA. 
+
+```
+@article{theis2020adversarial,
+  title={Adversarial System Variant Approximation to Quantify Process Model Generalization},
+  author={Theis, Julian and Darabi, Houshang},
+  year={2020},
+  month = {03},
+  url = {http://arxiv.org/abs/2003.12168},
+  arxivId = {2003.12168}
+}
+```
 
 # How To
 ## Systems
