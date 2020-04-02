@@ -31,7 +31,7 @@ ortools==7.4.7247
 pandas==0.25.3
 pexpect==4.7.0
 pickleshare==0.7.5
-Pillow==6.0.0
+Pillow>=6.2.2
 pm4py==1.2.6
 prompt-toolkit==1.0.16
 protobuf==3.11.0
