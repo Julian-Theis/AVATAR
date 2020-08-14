@@ -43,7 +43,7 @@ if __name__ == "__main__":
     mh_count = int(args.mh_count)
     mh_patience = int(args.mh_patience)
     mh_k = int(args.mh_count)
-    mh_maxiter = int(args.mh_count)
+    mh_maxiter = int(args.mh_mi)
 
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
 
