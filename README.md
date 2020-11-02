@@ -1,14 +1,16 @@
 # AVATAR
-This project is the implementation of the *AdVersarial system vAriant AppRoximation* (AVATAR) approach described in the paper [Adversarial System Variant Approximation to Quantify Process Model Generalization](https://arxiv.org/abs/2003.12168) by [Julian Theis](http://julian-theis.github.io) and [Houshang Darabi](https://scholar.google.com/citations?user=PVzYdvoAAAAJ). Both authors are with the [Process Mining and Intelligent System Analytics Team (PROMINENT)](https://prominent.uic.edu/) at the University of Illinois at Chicago, USA. 
+This project is the implementation of the *AdVersarial system vArianT AppRoximation* (AVATAR) approach described in the paper [Adversarial System Variant Approximation to Quantify Process Model Generalization](https://ieeexplore.ieee.org/document/9237923) by [Julian Theis](http://julian-theis.github.io) and [Houshang Darabi](https://scholar.google.com/citations?user=PVzYdvoAAAAJ). Both authors are with the [Process Mining and Intelligent System Analytics Team (PROMINENT)](https://prominent.uic.edu/) at the University of Illinois at Chicago, USA. 
 
 ```
 @article{theis2020adversarial,
-  title={Adversarial System Variant Approximation to Quantify Process Model Generalization},
-  author={Theis, Julian and Darabi, Houshang},
+  title={Adversarial System Variant Approximation to Quantify Process Model Generalization}, 
+  author={J. {Theis} and H. {Darabi}},
+  journal={IEEE Access}, 
   year={2020},
-  month = {03},
-  url = {http://arxiv.org/abs/2003.12168},
-  arxivId = {2003.12168}
+  volume={8},
+  number={},
+  pages={194410-194427},
+  doi={10.1109/ACCESS.2020.3033450}}
 }
 ```
 
@@ -79,5 +81,3 @@ Calculate the AVATAR generalization as follows.
 ```python
 python -m avatar.generalization --system <...> --job <0/1> --suffix <...> --strategy <naive/mh> --pn <...>
 ```
-
-
