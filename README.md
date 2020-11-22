@@ -17,20 +17,20 @@ This project is the implementation of the *AdVersarial system vArianT AppRoximat
 # Overview
 AVATAR is a methodology to measure the generalization of process models by following the subsequent approach:
 <center>
-  <img src="images/overview.gif"></img>
+  <img src="images/overview.png" width="100%"></img>
  </center>
 
 A Sequence Generative Adversarial Network is used to obtain a neural network that approximates the behavior of a system under investigation. This neural network is trained on observed behavior from recorded event logs only. The generalization quality is assessed by comparing the unobserved behavior modeled by the process model with the unobserved behavior modeled by the neural network. The Metropolis-Hastings algorithm can be used to further increase the sampling quality from the Sequence Generative Adversarial Network.
 
 The results of a controlled experiment show that Sequence Generative Adversarial Networks sample unknown variants of the system better than current process discovery algorithms.
 <center>
-  <img src="images/results.gif"></img>
+  <img src="images/results.png"></img>
 </center>
 
 Consequently, the generalization of a process model can be calculated as the harmonic mean of its fitness and precision with respect to an event log that contains the variants that were sampled from the Sequence Generative Adversarial Network.
 This leads conclusively to a closer expected generalization score when assessing the extent to which a process model describes the actual holistic system behavior.
 <center>
-  <img src="images/gen_results.gif"></img>
+  <img src="images/gen_results.png" width="100%"></img>
  </center>
 
 # How To
