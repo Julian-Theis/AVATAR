@@ -13,7 +13,7 @@ h5py==2.9.0
 intervaltree==3.0.2
 ipython==5.3.0
 ipython-genutils==0.2.0
-Jinja2==2.10.1
+Jinja2==2.11.3
 joblib==0.13.2
 Keras==2.2.4
 Keras-Applications==1.0.7
