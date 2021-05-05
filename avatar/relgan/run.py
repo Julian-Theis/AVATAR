@@ -7,6 +7,8 @@ from avatar.relgan.utils.text_process import text_precess
 from avatar.relgan.utils.utils import pp
 import avatar.relgan.models as models
 
+WORK_PATH = os.path.abspath(os.getcwd())
+
 def main(given_args=None):
     parser = argparse.ArgumentParser(description='Train and run a RelGAN')
     # Architecture
@@ -60,7 +62,9 @@ def main(given_args=None):
     parser.add_argument('--gen-emb-dim', default=32, type=int, help="generator embedding dimension")
     parser.add_argument('--dis-emb-dim', default=64, type=int, help="TOTAL discriminator embedding dimension")
     parser.add_argument('--num-rep', default=64, type=int, help="number of discriminator embedded representations")
-    parser.add_argument('--data-dir', default='/data/julian/data/relgan/data', type=str,
+    parser.add_argument('--data-dir',
+                        default=os.path.join(WORK_PATH, "data", "avatar", "sgans"), ## Refer her to where data is stored. Such as /data/julian/data/relgan/data
+                        type=str,
                         help='Where data data is stored')
 
     if given_args is None:
@@ -72,7 +76,7 @@ def main(given_args=None):
 
     print(config)
 
-    data_file = os.path.join(args.data_dir, '{}.txt'.format(args.dataset))
+    data_file = os.path.join(args.data_dir, "..", "train_data", '{}.txt'.format(args.dataset))
 
     if args.dataset == 'pb_system_4_1_10':
         args.batch_size = 32

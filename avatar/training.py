@@ -10,16 +10,18 @@ from avatar.util.LoadRelgan import LoadRelgan
 from avatar.evaluation import load_data, evaluate
 from avatar.util.util import writeToFile
 
+WORK_PATH = os.path.abspath(os.getcwd())
+
 def find_num_sentences(system):
-    file = "data/avatar/train_data/" + system + ".txt"
+    file = os.path.join(WORK_PATH, "data", "avatar", "train_data", system + ".txt")
     return str(sum(1 for _ in open(file)))
 
 def split_train_eval(system, ratio=0.1):
     print("*** Splitting System", system, " to train and evaluation with ratio ", str(ratio), "***")
 
-    load_file = "data/variants/" + str(system) + "_train.txt"
-    train_out = "data/avatar/train_data/" + str(system) + ".txt"
-    eval_out = "data/avatar/train_data/" + str(system) + "_eval.txt"
+    load_file = os.path.join(WORK_PATH, "data", "variants", str(system) + "_train.txt")
+    train_out = os.path.join(WORK_PATH, "data", "avatar", "train_data", str(system) + ".txt")
+    eval_out = os.path.join(WORK_PATH, "data", "avatar", "train_data", str(system) + "_eval.txt")
 
     all_sequences = readVariantFile(load_file, unique=False)
     indices = np.arange(0, len(all_sequences))
@@ -91,14 +93,14 @@ if __name__ == "__main__":
     adapt = 'exp'
     npre_epochs = '100' #100
     nadv_steps = '5000' #5000
-    ntest = '20'
+    ntest = '20' #20
 
     # Paths
     scriptname = 'run.py'
     cwd = os.path.dirname(os.path.abspath(__file__))
     rootdir = cwd + "/.."
 
-    outdir = os.path.join("data/avatar/sgans/", system, str(job_id))
+    outdir = os.path.join(WORK_PATH, "data", "avatar", "sgans", system, str(job_id))
 
     args = [
         # Architecture
@@ -155,9 +157,8 @@ if __name__ == "__main__":
     """ Train RelGAN """
     relgan_main(given_args=args)
 
-
     """ Sample from all """
-    ranges = range(1, int(nadv_steps), int(ntest))
+    ranges = range(1, int(nadv_steps)+1, int(ntest))
 
     for suffix in ranges:
         tf.reset_default_graph()
@@ -165,7 +166,7 @@ if __name__ == "__main__":
         print("****** SAMPLE FOR SUFFIX ", suffix, " ******")
         relgan = LoadRelgan(system=system, suffix=suffix, job=job_id)
 
-        f_out = "data/avatar/variants/" + system + "_relgan_" + str(suffix) + "_j" + str(job_id) + ".txt"
+        f_out = os.path.join(WORK_PATH, "data", "avatar", "variants", system + "_relgan_" + str(suffix) + "_j" + str(job_id) + ".txt")
         print("Start sampling")
         gen_samples = relgan.generate(n_samples=n_samples)
         print(gen_samples.shape)
@@ -177,13 +178,13 @@ if __name__ == "__main__":
     train, test, eval, pop, _ = load_data(system, "1", job_id)
     results = dict()
     for suffix in ranges:
-        f_gan = "data/avatar/variants/" + system + "_relgan_" + str(suffix) + "_j" + str(job_id) + ".txt"
+        f_gan = os.path.join(WORK_PATH, "data", "avatar", "variants", system + "_relgan_" + str(suffix) + "_j" + str(job_id) + ".txt")
         gan = readVariantFile(f_gan, unique=True)
         res = evaluate(suffix, train, test, eval, pop, gan)
         results[suffix] = res
 
     iw = json.dumps(results)
-    f = open(os.path.join("data/avatar/sgans", system, str(job_id), "evaluations_relgan_" + str(system) + "_" + str(job_id) + ".json"), "w")
+    f = open(os.path.join(WORK_PATH, "data", "avatar", "sgans", system, str(job_id), "evaluations_relgan_" + str(system) + "_" + str(job_id) + ".json"), "w")
     f.write(iw)
     f.close()
 
@@ -220,7 +221,7 @@ if __name__ == "__main__":
         rank_id -= 1
 
     iw = json.dumps(ranks)
-    f = open(os.path.join("data/avatar/sgans", system, str(job_id),
+    f = open(os.path.join(WORK_PATH, "data", "avatar", "sgans", system, str(job_id),
                           "suffix_ranks_relgan_" + str(system) + "_" + str(job_id) + ".json"), "w")
     f.write(iw)
     f.close()

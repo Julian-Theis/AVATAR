@@ -40,61 +40,55 @@ def real_train(generator, discriminator, oracle_loader, config, prob_discriminat
     gen_file = os.path.join(sample_dir, 'generator.txt')
     gen_text_file = os.path.join(sample_dir, 'generator_text.txt')
     csv_file = os.path.join(log_dir, 'experiment-log-rmcgan.csv')
-    data_file = os.path.join(data_dir, '{}.txt'.format(dataset))
-    if dataset == 'image_coco':
-        test_file = os.path.join(data_dir, 'testdata/test_coco.txt')
-    elif dataset == 'emnlp_news':
-        test_file = os.path.join(data_dir, 'testdata/test_emnlp.txt')
-    elif dataset == 'logic1':
-        test_file = os.path.join(data_dir, 'logic1.txt')
-    elif dataset == 'pb_system_1_5':
-        test_file = os.path.join(data_dir, 'pb_system_1_5.txt')
+    data_file = os.path.join(data_dir, "..", "train_data", '{}.txt'.format(dataset))
+    if dataset == 'pb_system_1_5':
+        test_file = os.path.join(data_dir, "..", "train_data", 'pb_system_1_5.txt')
     elif dataset == 'pb_system_2_4':
-        test_file = os.path.join(data_dir, 'pb_system_2_4.txt')
+        test_file = os.path.join(data_dir, "..", "train_data", 'pb_system_2_4.txt')
     elif dataset == 'pb_system_3_6':
-        test_file = os.path.join(data_dir, 'pb_system_3_6.txt')
+        test_file = os.path.join(data_dir, "..", "train_data", 'pb_system_3_6.txt')
     elif dataset == 'pb_system_4_1':
-        test_file = os.path.join(data_dir, 'pb_system_4_1.txt')
+        test_file = os.path.join(data_dir, "..", "train_data", 'pb_system_4_1.txt')
     elif dataset == 'pb_system_4_1_10':
-        test_file = os.path.join(data_dir, 'pb_system_4_1_10.txt')
+        test_file = os.path.join(data_dir, "..", "train_data", 'pb_system_4_1_10.txt')
     elif dataset == 'pb_system_4_1_30':
-        test_file = os.path.join(data_dir, 'pb_system_4_1_30.txt')
+        test_file = os.path.join(data_dir, "..", "train_data", 'pb_system_4_1_30.txt')
     elif dataset == 'pb_system_4_1_50':
-        test_file = os.path.join(data_dir, 'pb_system_4_1_50.txt')
+        test_file = os.path.join(data_dir, "..", "train_data", 'pb_system_4_1_50.txt')
     elif dataset == 'pb_system_5_3':
-        test_file = os.path.join(data_dir, 'pb_system_5_3.txt')
+        test_file = os.path.join(data_dir, "..", "train_data", 'pb_system_5_3.txt')
 
     elif dataset == 'pb_system_5_3_b':
-        test_file = os.path.join(data_dir, 'pb_system_5_3_b.txt')
+        test_file = os.path.join(data_dir, "..", "train_data", 'pb_system_5_3_b.txt')
     elif dataset == 'pb_system_1_5_b':
-        test_file = os.path.join(data_dir, 'pb_system_1_5_b.txt')
+        test_file = os.path.join(data_dir, "..", "train_data", 'pb_system_1_5_b.txt')
     elif dataset == 'pb_system_2_4_b':
-        test_file = os.path.join(data_dir, 'pb_system_2_4_b.txt')
+        test_file = os.path.join(data_dir, "..", "train_data", 'pb_system_2_4_b.txt')
     elif dataset == 'pb_system_3_6_b':
-        test_file = os.path.join(data_dir, 'pb_system_3_6_b.txt')
+        test_file = os.path.join(data_dir, "..", "train_data", 'pb_system_3_6_b.txt')
     elif dataset == 'pb_system_4_1_b':
-        test_file = os.path.join(data_dir, 'pb_system_4_1_b.txt')
+        test_file = os.path.join(data_dir, "..", "train_data", 'pb_system_4_1_b.txt')
 
     elif dataset == 'pa_system_1_5':
-        test_file = os.path.join(data_dir, 'pa_system_1_5.txt')
+        test_file = os.path.join(data_dir, "..", "train_data", 'pa_system_1_5.txt')
     elif dataset == 'pa_system_2_3':
-        test_file = os.path.join(data_dir, 'pa_system_2_3.txt')
+        test_file = os.path.join(data_dir, "..", "train_data", 'pa_system_2_3.txt')
     elif dataset == 'pa_system_4_3':
-        test_file = os.path.join(data_dir, 'pa_system_4_3.txt')
+        test_file = os.path.join(data_dir, "..", "train_data", 'pa_system_4_3.txt')
     elif dataset == 'pa_system_5_5':
-        test_file = os.path.join(data_dir, 'pa_system_5_5.txt')
+        test_file = os.path.join(data_dir, "..", "train_data", 'pa_system_5_5.txt')
     elif dataset == 'pa_system_6_3':
-        test_file = os.path.join(data_dir, 'pa_system_6_3.txt')
+        test_file = os.path.join(data_dir, "..", "train_data", 'pa_system_6_3.txt')
     elif dataset == 'pa_system_7_7':
-        test_file = os.path.join(data_dir, 'pa_system_7_7.txt')
+        test_file = os.path.join(data_dir, "..", "train_data", 'pa_system_7_7.txt')
     elif dataset == 'pa_system_8_3':
-        test_file = os.path.join(data_dir, 'pa_system_8_3.txt')
+        test_file = os.path.join(data_dir, "..", "train_data", 'pa_system_8_3.txt')
     elif dataset == 'pa_system_9_1':
-        test_file = os.path.join(data_dir, 'pa_system_9_1.txt')
+        test_file = os.path.join(data_dir, "..", "train_data", 'pa_system_9_1.txt')
     elif dataset == 'pa_system_10_2':
-        test_file = os.path.join(data_dir, 'pa_system_10_2.txt')
+        test_file = os.path.join(data_dir, "..", "train_data", 'pa_system_10_2.txt')
     elif dataset == 'pa_system_11_3':
-        test_file = os.path.join(data_dir, 'pa_system_11_3.txt')
+        test_file = os.path.join(data_dir, "..", "train_data", 'pa_system_11_3.txt')
     else:
         raise NotImplementedError('Unknown dataset!')
 
