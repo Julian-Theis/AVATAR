@@ -147,6 +147,14 @@ def standard_playout(pn, f_pop, f_train, f_test, xes_train, csv_train, train_siz
         else:
             test.append(trace)
 
+    print()
+    print("Mean variant length size train:", np.mean([len(s) for s in train]))
+    print("Mean variant length size test:", np.mean([len(s) for s in test]))
+    print()
+    print("Max variant length size train:", np.max([len(s) for s in train]))
+    print("Max variant length size test:", np.max([len(s) for s in test]))
+    print()
+
     writeVariantToFile(f_train, train)
     print("Unique Variant Log (Train, " + str(int(train_size*100)) + "%) stored in:", str(f_train))
 
