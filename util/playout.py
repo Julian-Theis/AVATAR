@@ -157,7 +157,7 @@ def standard_playout(pn, f_pop, f_train, f_test, xes_train, csv_train, train_siz
     printStatistics(f_pop, f_train, f_test)
 
 
-def biased_playout(pn, f_pop, f_train, f_test, xes_train, csv_train,):
+def biased_playout_b1(pn, f_pop, f_train, f_test, xes_train, csv_train,):
     print("*** PLAYOUT " + str(pn) + " ***")
     f_pn = os.path.join(pn)
     net, initial_marking, final_marking = pnml_importer.apply(f_pn)
@@ -196,11 +196,234 @@ def biased_playout(pn, f_pop, f_train, f_test, xes_train, csv_train,):
             test.append(trace)
         cnt += 1
 
+    print()
+    print("Mean variant length size train:", np.mean([len(s) for s in train]))
+    print("Mean variant length size test:", np.mean([len(s) for s in test]))
+    print()
+    print("Max variant length size train:", np.max([len(s) for s in train]))
+    print("Max variant length size test:", np.max([len(s) for s in test]))
+    print()
+
     writeVariantToFile(f_train, train)
-    print("Biased Unique Variant Log (Train, 70%) stored in:", str(f_train))
+    print("b1 Biased Unique Variant Log (Train, 70%) stored in:", str(f_train))
 
     writeVariantToFile(f_test, test)
-    print("Biased Unique Variant Log (Test, 30%) stored in:", str(f_test))
+    print("b1 Biased Unique Variant Log (Test, 30%) stored in:", str(f_test))
+
+    prepare_xes_csv(f_train, xes_train, csv_train)
+    printStatistics(f_pop, f_train, f_test)
+
+def biased_playout_b2(pn, f_pop, f_train, f_test, xes_train, csv_train,):
+    print("*** PLAYOUT " + str(pn) + " ***")
+    f_pn = os.path.join(pn)
+    net, initial_marking, final_marking = pnml_importer.apply(f_pn)
+    print("Initial Marking:", initial_marking)
+    print("Final Marking:",final_marking)
+
+    player = Player(net, initial_marking, final_marking, maxTraceLength=200, rep_inv_thresh=100, max_loop=3)
+    gen_traces = player.play()
+
+    print("Total Number of Variants:", len(gen_traces))
+    writeVariantToFile(f_pop, gen_traces)
+    print("Unique Variant Log stored in:", str(f_pop))
+
+    max_len = 0
+    for trace in gen_traces:
+        if len(trace) > max_len:
+            max_len = len(trace)
+
+    test = list()
+    train = list()
+
+    gen_traces = list(gen_traces)
+    gen_traces.sort(key=lambda s: -len(s))
+
+    threshold = 0.7 * len(gen_traces)
+
+    cnt = 0
+    for trace in gen_traces:
+        if cnt < threshold:
+            train.append(trace)
+        else:
+            test.append(trace)
+        cnt += 1
+
+    print()
+    print("Mean variant length size train:", np.mean([len(s) for s in train]))
+    print("Mean variant length size test:", np.mean([len(s) for s in test]))
+    print()
+    print("Max variant length size train:", np.max([len(s) for s in train]))
+    print("Max variant length size test:", np.max([len(s) for s in test]))
+    print()
+
+    writeVariantToFile(f_train, train)
+    print("b2 Biased Unique Variant Log (Train, 70%) stored in:", str(f_train))
+
+    writeVariantToFile(f_test, test)
+    print("b2 Biased Unique Variant Log (Test, 30%) stored in:", str(f_test))
+
+    prepare_xes_csv(f_train, xes_train, csv_train)
+    printStatistics(f_pop, f_train, f_test)
+
+
+def biased_playout_b3(pn, f_pop, f_train, f_test, xes_train, csv_train,):
+    print("*** PLAYOUT " + str(pn) + " ***")
+    f_pn = os.path.join(pn)
+    net, initial_marking, final_marking = pnml_importer.apply(f_pn)
+    print("Initial Marking:", initial_marking)
+    print("Final Marking:",final_marking)
+
+    player = Player(net, initial_marking, final_marking, maxTraceLength=200, rep_inv_thresh=100, max_loop=3)
+    gen_traces = player.play()
+
+    print("Total Number of Variants:", len(gen_traces))
+    writeVariantToFile(f_pop, gen_traces)
+    print("Unique Variant Log stored in:", str(f_pop))
+
+    max_len = 0
+    for trace in gen_traces:
+        if len(trace) > max_len:
+            max_len = len(trace)
+
+    test = list()
+    train = list()
+    for trace in gen_traces:
+        if len(trace) == max_len:
+            train.append(trace)
+            gen_traces.remove(trace)
+            break
+
+    gen_traces = list(gen_traces)
+    gen_traces.sort(key=lambda s: len(s))
+    threshold = 0.7 * len(gen_traces)
+
+    cnt = 0
+    for trace in gen_traces:
+        if cnt < threshold:
+            train.append(trace)
+        else:
+            test.append(trace)
+        cnt += 1
+
+    r_train = []
+    r_test = []
+    p_thresh = 0.75
+
+    for t in test:
+        p = np.random.uniform(0, 1, 1)[0]
+        if p < p_thresh:
+            r_test.append(t)
+        else:
+            r_train.append(t)
+
+    required_transfers = len(r_train)
+    train_transfer = random.sample(train, required_transfers)
+    while np.max([len(s) for s in train_transfer]) == max_len:
+        train_transfer = random.sample(train, required_transfers)
+        print("resample")
+
+    for t in train:
+        if t in train_transfer:
+            r_test.append(t)
+        else:
+            r_train.append(t)
+
+    print()
+    print("Transfer", len(train_transfer), "variants from train to test.")
+    print("Mean variant length size train (before randomization):", np.mean([len(s) for s in train]))
+    print("Mean variant length size test (before randomization):", np.mean([len(s) for s in test]))
+    print("Mean variant length size train (after randomization):", np.mean([len(s) for s in r_train]))
+    print("Mean variant length size test (after randomization):", np.mean([len(s) for s in r_test]))
+    print("Size before and after randomization (train):", len(train), len(r_train))
+    print("Size before and after randomization (test):",len(test), len(r_test))
+    print()
+    print("Max variant length size train (after randomization):", np.max([len(s) for s in r_train]))
+    print("Max variant length size test (after randomization):", np.max([len(s) for s in r_test]))
+    print()
+    writeVariantToFile(f_train, r_train)
+    print("b3 Biased Unique Variant Log (Train, 70%) stored in:", str(f_train))
+
+    writeVariantToFile(f_test, r_test)
+    print("b3 Biased Unique Variant Log (Test, 30%) stored in:", str(f_test))
+
+    prepare_xes_csv(f_train, xes_train, csv_train)
+    printStatistics(f_pop, f_train, f_test)
+
+def biased_playout_b4(pn, f_pop, f_train, f_test, xes_train, csv_train,):
+    print("*** PLAYOUT " + str(pn) + " ***")
+    f_pn = os.path.join(pn)
+    net, initial_marking, final_marking = pnml_importer.apply(f_pn)
+    print("Initial Marking:", initial_marking)
+    print("Final Marking:",final_marking)
+
+    player = Player(net, initial_marking, final_marking, maxTraceLength=200, rep_inv_thresh=100, max_loop=3)
+    gen_traces = player.play()
+
+    print("Total Number of Variants:", len(gen_traces))
+    writeVariantToFile(f_pop, gen_traces)
+    print("Unique Variant Log stored in:", str(f_pop))
+
+    max_len = 0
+    for trace in gen_traces:
+        if len(trace) > max_len:
+            max_len = len(trace)
+
+    test = list()
+    train = list()
+
+    gen_traces = list(gen_traces)
+    gen_traces.sort(key=lambda s: -len(s))
+
+    threshold = 0.7 * len(gen_traces)
+
+    cnt = 0
+    for trace in gen_traces:
+        if cnt < threshold:
+            train.append(trace)
+        else:
+            test.append(trace)
+        cnt += 1
+
+    r_train = []
+    r_test = []
+    p_thresh = 0.75
+
+    for t in test:
+        p = np.random.uniform(0, 1, 1)[0]
+        if p < p_thresh:
+            r_test.append(t)
+        else:
+            r_train.append(t)
+
+    required_transfers = len(r_train)
+    train_transfer = random.sample(train, required_transfers)
+    while np.max([len(s) for s in train_transfer]) == max_len:
+        train_transfer = random.sample(train, required_transfers)
+        print("resample")
+
+    for t in train:
+        if t in train_transfer:
+            r_test.append(t)
+        else:
+            r_train.append(t)
+
+    print()
+    print("Transfer", len(train_transfer), "variants from train to test.")
+    print("Mean variant length size train (before randomization):", np.mean([len(s) for s in train]))
+    print("Mean variant length size test (before randomization):", np.mean([len(s) for s in test]))
+    print("Mean variant length size train (after randomization):", np.mean([len(s) for s in r_train]))
+    print("Mean variant length size test (after randomization):", np.mean([len(s) for s in r_test]))
+    print("Size before and after randomization (train):", len(train), len(r_train))
+    print("Size before and after randomization (test):",len(test), len(r_test))
+    print()
+    print("Max variant length size train (after randomization):", np.max([len(s) for s in r_train]))
+    print("Max variant length size test (after randomization):", np.max([len(s) for s in r_test]))
+    print()
+    writeVariantToFile(f_train, r_train)
+    print("b4 Biased Unique Variant Log (Train, 70%) stored in:", str(f_train))
+
+    writeVariantToFile(f_test, r_test)
+    print("b4 Biased Unique Variant Log (Test, 30%) stored in:", str(f_test))
 
     prepare_xes_csv(f_train, xes_train, csv_train)
     printStatistics(f_pop, f_train, f_test)

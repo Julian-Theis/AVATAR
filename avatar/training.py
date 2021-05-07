@@ -92,7 +92,7 @@ if __name__ == "__main__":
     decay = False
     adapt = 'exp'
     npre_epochs = '100' #100
-    nadv_steps = '5000' #5000
+    nadv_steps = '5000' #5000s
     ntest = '20' #20
 
     # Paths

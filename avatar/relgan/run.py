@@ -76,12 +76,14 @@ def main(given_args=None):
 
     print(config)
 
-    data_file = os.path.join(args.data_dir, "..", "train_data", '{}.txt'.format(args.dataset))
+    #data_file = os.path.join(args.data_dir, "..", "train_data", '{}.txt'.format(args.dataset))
+
+    seq_vocab_file = os.path.join(WORK_PATH, "data", "variants", str(args.dataset) + "_train.txt")
 
     if args.dataset == 'pb_system_4_1_10':
         args.batch_size = 32
 
-    seq_len, vocab_size = text_precess(data_file)
+    seq_len, vocab_size = text_precess(seq_vocab_file)
     config['seq_len'] = seq_len
     config['vocab_size'] = vocab_size
     print('seq_len: %d, vocab_size: %d' % (seq_len, vocab_size))
