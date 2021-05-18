@@ -1,4 +1,8 @@
 from util.playout import standard_playout
+import os
+from conf.settings import DATA_PATH
+
+WORK_PATH = os.path.abspath(os.getcwd())
 
 if __name__ == "__main__": 
     pn = "data/systems/pa_system_7_7.pnml"

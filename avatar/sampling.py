@@ -6,6 +6,7 @@ import numpy as np
 from avatar.util.LoadRelgan import LoadRelgan
 from avatar.util.MHGAN import MHGAN
 from avatar.util.util import writeToFile, readTraces
+from conf.settings import DATA_PATH
 
 WORK_PATH = os.path.abspath(os.getcwd())
 
@@ -54,7 +55,11 @@ if __name__ == "__main__":
         print("****** SAMPLE FOR SUFFIX ", suffix, " ******")
         relgan = LoadRelgan(system=system, suffix=suffix, job=job)
 
-        f_out = os.path.join(WORK_PATH, "data", "avatar", "variants", system + "_relgan_" + str(suffix) + "_j" + str(job) + "_naive.txt")
+        if DATA_PATH is None:
+            f_out = os.path.join(WORK_PATH, "data", "avatar", "variants", system + "_relgan_" + str(suffix) + "_j" + str(job) + "_naive.txt")
+        else:
+            f_out = os.path.join(DATA_PATH, "avatar", "variants",system + "_relgan_" + str(suffix) + "_j" + str(job) + "_naive.txt")
+
         print("Start NAIVE SAMPLING")
         gen_samples = relgan.generate(n_samples=n_samples)
         print("Generated samples - shape:", gen_samples.shape)
@@ -62,8 +67,12 @@ if __name__ == "__main__":
         writeToFile(relgan, f_out, gen_samples)
 
     elif strategy == "mh":
-        eval_path = os.path.join(WORK_PATH, "data", "avatar", "train_data", system + "_eval.txt")
-        f_out = os.path.join(WORK_PATH, "data", "avatar", "variants", system + "_relgan_" + str(suffix) + "_j" + str(job) + "_mh.txt")
+        if DATA_PATH is None:
+            eval_path = os.path.join(WORK_PATH, "data", "avatar", "train_data", system + "_eval.txt")
+            f_out = os.path.join(WORK_PATH, "data", "avatar", "variants", system + "_relgan_" + str(suffix) + "_j" + str(job) + "_mh.txt")
+        else:
+            eval_path = os.path.join(DATA_PATH, "avatar", "train_data", system + "_eval.txt")
+            f_out = os.path.join(DATA_PATH, "avatar", "variants", system + "_relgan_" + str(suffix) + "_j" + str(job) + "_mh.txt")
 
         tf.reset_default_graph()
         print("****** SAMPLE FOR SUFFIX ", suffix, " ******")

@@ -6,6 +6,7 @@ from avatar.relgan.real.real_gan.real_loader import RealDataLoader
 from avatar.relgan.utils.text_process import text_precess
 from avatar.relgan.utils.utils import pp
 import avatar.relgan.models as models
+from conf.settings import DATA_PATH
 
 WORK_PATH = os.path.abspath(os.getcwd())
 
@@ -62,8 +63,14 @@ def main(given_args=None):
     parser.add_argument('--gen-emb-dim', default=32, type=int, help="generator embedding dimension")
     parser.add_argument('--dis-emb-dim', default=64, type=int, help="TOTAL discriminator embedding dimension")
     parser.add_argument('--num-rep', default=64, type=int, help="number of discriminator embedded representations")
+
+    if DATA_PATH is None:
+        def_dir = os.path.join(WORK_PATH, "data", "avatar", "sgans")
+    else:
+        def_dir = os.path.join(DATA_PATH, "avatar", "sgans")
+
     parser.add_argument('--data-dir',
-                        default=os.path.join(WORK_PATH, "data", "avatar", "sgans"), ## Refer her to where data is stored. Such as /data/julian/data/relgan/data
+                        default=def_dir,
                         type=str,
                         help='Where data data is stored')
 
@@ -78,7 +85,10 @@ def main(given_args=None):
 
     #data_file = os.path.join(args.data_dir, "..", "train_data", '{}.txt'.format(args.dataset))
 
-    seq_vocab_file = os.path.join(WORK_PATH, "data", "variants", str(args.dataset) + "_train.txt")
+    if DATA_PATH is None:
+        seq_vocab_file = os.path.join(WORK_PATH, "data", "variants", str(args.dataset) + "_train.txt")
+    else:
+        seq_vocab_file = os.path.join(DATA_PATH, "variants", str(args.dataset) + "_train.txt")
 
     if args.dataset == 'pb_system_4_1_10':
         args.batch_size = 32

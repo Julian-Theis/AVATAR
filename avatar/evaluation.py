@@ -2,6 +2,7 @@ import numpy as np
 import os
 import argparse
 from util.playout import readVariantFile
+from conf.settings import DATA_PATH
 
 WORK_PATH = os.path.abspath(os.getcwd())
 
@@ -41,15 +42,25 @@ def intersection(lst1, lst2):
     return list(set(ls1) & set(ls2))
 
 def load_data(system, suffix, job, strategy=None):
-    f_train = os.path.join(WORK_PATH, "data", "variants", system + "_train.txt")
-    f_test = os.path.join(WORK_PATH, "data", "variants", system + "_test.txt")
-    f_pop = os.path.join(WORK_PATH, "data", "variants", system + "_pop.txt")
-    f_eval = os.path.join(WORK_PATH, "data", "avatar", "train_data", system + "_eval.txt")
 
-    if strategy is None:
-        f_gan = os.path.join(WORK_PATH, "data", "avatar", "variants", system + "_relgan_" + str(suffix) + "_j" + str(job) + ".txt")
+    if DATA_PATH is None:
+        f_train = os.path.join(WORK_PATH, "data", "variants", system + "_train.txt")
+        f_test = os.path.join(WORK_PATH, "data", "variants", system + "_test.txt")
+        f_pop = os.path.join(WORK_PATH, "data", "variants", system + "_pop.txt")
+        f_eval = os.path.join(WORK_PATH, "data", "avatar", "train_data", system + "_eval.txt")
+        if strategy is None:
+            f_gan = os.path.join(WORK_PATH, "data", "avatar", "variants", system + "_relgan_" + str(suffix) + "_j" + str(job) + ".txt")
+        else:
+            f_gan = os.path.join(WORK_PATH, "data", "avatar", "variants", system + "_relgan_" + str(suffix) + "_j" + str(job) + "_" + strategy + ".txt")
     else:
-        f_gan = os.path.join(WORK_PATH, "data", "avatar", "variants", system + "_relgan_" + str(suffix) + "_j" + str(job) + "_" + strategy + ".txt")
+        f_train = os.path.join(DATA_PATH, "variants", system + "_train.txt")
+        f_test = os.path.join(DATA_PATH, "variants", system + "_test.txt")
+        f_pop = os.path.join(DATA_PATH, "variants", system + "_pop.txt")
+        f_eval = os.path.join(DATA_PATH, "avatar", "train_data", system + "_eval.txt")
+        if strategy is None:
+            f_gan = os.path.join(DATA_PATH, "avatar", "variants", system + "_relgan_" + str(suffix) + "_j" + str(job) + ".txt")
+        else:
+            f_gan = os.path.join(DATA_PATH, "avatar", "variants", system + "_relgan_" + str(suffix) + "_j" + str(job) + "_" + strategy + ".txt")
 
 
     train = readVariantFile(f_train, unique=False)

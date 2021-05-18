@@ -6,9 +6,15 @@ from pm4py.objects.petri.importer import pnml as pnml_importer
 from pm4py.evaluation.replay_fitness import factory as replay_factory
 from pm4py.evaluation.precision import factory as precision_factory
 from pm4py.evaluation.generalization import factory as generalization_factory
+from conf.settings import DATA_PATH
+
+WORK_PATH = os.path.abspath(os.getcwd())
 
 def main(system, miner):
-    log = xes_importer.import_log(os.path.join("data/variants/", str(system) + "_train.xes"))
+    if DATA_PATH is None:
+        log = xes_importer.import_log(os.path.join(WORK_PATH, "data", "variants", str(system) + "_train.xes"))
+    else:
+        log = xes_importer.import_log(os.path.join(DATA_PATH, "variants", str(system) + "_train.xes"))
 
     bestmodel = None
     bestfit = None
@@ -21,9 +27,18 @@ def main(system, miner):
     gen_bestPrec = None
     gen_bestGen = 0
 
-    for file in os.listdir("data/pns/" + str(system) + "/"):
+    if DATA_PATH is None:
+        dir = os.listdir(os.path.join(WORK_PATH, "data", "pns", str(system)))
+    else:
+        dir = os.listdir(os.path.join(DATA_PATH, "pns", str(system)))
+
+    for file in dir:
         if system in file and miner in file:
-            path = os.path.join("data/pns/", str(system), file)
+            if DATA_PATH is None:
+                path = os.path.join(WORK_PATH, "data", "pns", str(system), file)
+            else:
+                path = os.path.join(DATA_PATH, "pns", str(system), file)
+
             print("Checking conformance of file:", path)
 
             net, initial_marking, final_marking = pnml_importer.import_net(path)

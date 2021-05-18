@@ -3,12 +3,16 @@ import numpy as np
 import json
 import os
 import time
+from conf.settings import DATA_PATH
 
 WORK_PATH = os.path.abspath(os.getcwd())
 
 class LoadRelgan():
     def __init__(self, system, suffix, job):
-        path = os.path.join(WORK_PATH, "data", "avatar","sgans", system, str(job), "tf_logs", "ckpt")
+        if DATA_PATH is None:
+            path = os.path.join(WORK_PATH, "data", "avatar","sgans", system, str(job), "tf_logs", "ckpt")
+        else:
+            path = os.path.join(DATA_PATH, "avatar", "sgans", system, str(job), "tf_logs", "ckpt")
 
         saver = tf.train.import_meta_graph(os.path.join(path, system + ".adv_model-" + str(suffix) + ".meta"))
 

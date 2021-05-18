@@ -1,4 +1,8 @@
 from util.playout import biased_playout_b3
+import os
+from conf.settings import DATA_PATH
+
+WORK_PATH = os.path.abspath(os.getcwd())
 
 if __name__ == "__main__": 
     pn = "data/systems/pb_system_5_3.pnml"
