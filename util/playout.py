@@ -139,7 +139,7 @@ def standard_playout(pn, f_pop, f_train, f_test, xes_train, csv_train, train_siz
             break
 
     indices = [i for i in range(0, len(gen_traces))]
-    train_indices, test_indices = train_test_split(indices, train_size=0.7)
+    train_indices, test_indices = train_test_split(indices, train_size=train_size)
 
     for index, trace in enumerate(gen_traces):
         if index in train_indices:

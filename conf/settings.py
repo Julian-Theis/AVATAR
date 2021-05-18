@@ -1,1 +1,1 @@
-DATA_PATH = "C:\\data"
+DATA_PATH = None
