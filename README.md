@@ -95,7 +95,7 @@ python -m avatar.sampling --system <...> --job <0/1> --gpu <...> --suffix <...> 
 Evaluate the sampling. 
 
 ```python
-python -m avatar.evaluation --system <...> --job <0/1> --gpu <...> --suffix <...> --strategy <naive/mh>
+python -m avatar.evaluation --system <...> --job <0/1> --suffix <...> --strategy <naive/mh>
 ```
 
 ### Generalization
