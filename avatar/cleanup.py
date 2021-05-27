@@ -23,7 +23,7 @@ if __name__ == "__main__":
     if DATA_PATH is None:
         directory = os.path.join(WORK_PATH, "data", "avatar", "sgans", system, str(job), "tf_logs", "ckpt")
     else:
-        directory = os.path.join(DATA_PATH, "data", "avatar", "sgans", system, str(job), "tf_logs", "ckpt")
+        directory = os.path.join(DATA_PATH, "avatar", "sgans", system, str(job), "tf_logs", "ckpt")
 
     allfiles = [f for f in listdir(directory) if isfile(join(directory, f))]
     to_delete = []
