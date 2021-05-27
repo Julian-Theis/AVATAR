@@ -90,7 +90,7 @@ def main(given_args=None):
     else:
         seq_vocab_file = os.path.join(DATA_PATH, "variants", str(args.dataset) + "_train.txt")
 
-    if args.dataset == 'pb_system_4_1_10':
+    if args.dataset == 'pb_system_4_1_10' or '_s10' in args.dataset:
         args.batch_size = 32
 
     seq_len, vocab_size = text_precess(seq_vocab_file)
