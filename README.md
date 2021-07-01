@@ -34,6 +34,10 @@ This leads conclusively to a closer expected generalization score when assessing
  </center>
 
 # How To
+## Install
+AVATAR has been developed using Python 3.6. The required Python libraries are available in the [requirements-cpu.txt](requirements-cpu.txt) and [requirements-gpu.txt](requirements-gpu.txt) file, depending if you plan on using a CPU or GPU environment.
+Please run the [install/install_script.py](install/install_script.py) after creating your Python environment.
+
 ## Systems
 ### System Variant Playout
 To playout a unique system variant log from e.g. *PA System 11 3*, simply run the following command from the base directory. The script will create the variant log of the system, a train variant log, and a test variant log as txt files. Moreover, the train variants are used to create a CSV and an XES based event log suitable for process discovery.
@@ -91,7 +95,7 @@ python -m avatar.sampling --system <...> --job <0/1> --gpu <...> --suffix <...> 
 Evaluate the sampling. 
 
 ```python
-python -m avatar.evaluation --system <...> --job <0/1> --gpu <...> --suffix <...> --strategy <naive/mh>
+python -m avatar.evaluation --system <...> --job <0/1> --suffix <...> --strategy <naive/mh>
 ```
 
 ### Generalization

@@ -16,7 +16,7 @@ ipython-genutils==0.2.0
 Jinja2==2.11.3
 joblib==0.13.2
 Keras==2.2.4
-Keras-Applications==1.0.7
+Keras-Applications==1.0.8
 Keras-Preprocessing==1.0.9
 kiwisolver==1.1.0
 lxml==4.6.3
@@ -51,8 +51,8 @@ simplegeneric==0.8.1
 six==1.12.0
 sklearn==0.0
 sortedcontainers==2.1.0
-tensorboard==1.13.1
-tensorflow-estimator==1.13.0
+tensorboard==1.15.0
+tensorflow-estimator==1.15.1
 tensorflow-gpu==1.15.2
 termcolor==1.1.0
 torch==1.1.0

@@ -5,6 +5,9 @@ import argparse
 from pm4py.objects.petri.importer import pnml as pnml_importer
 from pm4py.algo.simulation.playout.versions import basic_playout as playout
 from util.playout import readVariantFile, getMaxVariantLength
+from conf.settings import DATA_PATH
+
+WORK_PATH = os.path.abspath(os.getcwd())
 
 def intersection(lst1, lst2):
     ls1 = []
@@ -58,13 +61,20 @@ if __name__ == "__main__":
     n_traces = int(args.traces)
     eval_only = str2bool(args.eval_only)
 
-    f_pop = "data/variants/" + str(system) + "_pop.txt"
-    f_train = "data/variants/" + str(system) + "_train.txt"
-    f_test = "data/variants/" + str(system) + "_test.txt"
-    f_out = "data/variants/" + pn + ".txt"
-    f_pn = os.path.join("data/pns", system, pn)
+    if DATA_PATH is None:
+        f_pop = os.path.join(WORK_PATH, "data", "variants", str(system) + "_pop.txt")
+        f_train = os.path.join(WORK_PATH, "data", "variants", str(system) + "_train.txt")
+        f_test = os.path.join(WORK_PATH, "data", "variants", str(system) + "_test.txt")
+        f_out = os.path.join(WORK_PATH, "data", "variants", pn + ".txt")
+        f_pn = os.path.join(WORK_PATH, "data", "pns", system, pn)
+    else:
+        f_pop = os.path.join(DATA_PATH, "variants", str(system) + "_pop.txt")
+        f_train = os.path.join(DATA_PATH, "variants", str(system) + "_train.txt")
+        f_test = os.path.join(DATA_PATH, "variants", str(system) + "_test.txt")
+        f_out = os.path.join(DATA_PATH, "variants", pn + ".txt")
+        f_pn = os.path.join(DATA_PATH, "pns", system, pn)
 
-    seq_len = getMaxVariantLength("data/variants/" + str(system) + "_pop.txt")
+    seq_len = getMaxVariantLength(f_pop)
     n_decimal = 8
 
     if eval_only:

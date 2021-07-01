@@ -9,6 +9,10 @@ from pm4py.objects.petri.importer import pnml as pnml_importer
 from pm4py.evaluation.replay_fitness import factory as replay_factory
 from pm4py.evaluation.precision import factory as precision_factory
 
+from conf.settings import DATA_PATH
+
+WORK_PATH = os.path.abspath(os.getcwd())
+
 def readFile(f_name1, f_name2, unique=False):
     traces = []
 
@@ -93,12 +97,19 @@ if __name__ == "__main__":
     pn = args.pn
     strategy = args.strategy
 
-    train_file = "data/variants/" + system + "_train.txt"
-    gen_file = "data/avatar/variants/" + system + "_relgan_" + str(suffix) + "_j" + str(job) + "_" + strategy + ".txt"
-    csv_file = "data/avatar/variants/" + system + "_relgan_" + str(suffix) + "_j" + str(job) + "_" + strategy + "_generalization.csv"
-    xes_file = "data/avatar/variants/" + system + "_relgan_" + str(suffix) + "_j" + str(job) + "_" + strategy + "_generalization.xes"
+    if DATA_PATH is None:
+        train_file = os.path.join(WORK_PATH, "data", "variants", system + "_train.txt")
+        gen_file = os.path.join(WORK_PATH, "data", "avatar", "variants", system + "_relgan_" + str(suffix) + "_j" + str(job) + "_" + strategy + ".txt")
+        csv_file = os.path.join(WORK_PATH, "data", "avatar", "variants", system + "_relgan_" + str(suffix) + "_j" + str(job) + "_" + strategy + "_generalization.csv")
+        xes_file = os.path.join(WORK_PATH, "data", "avatar", "variants", system + "_relgan_" + str(suffix) + "_j" + str(job) + "_" + strategy + "_generalization.xes")
+        pn_file = os.path.join(WORK_PATH, "data", "pns", system, pn)
+    else:
+        train_file = os.path.join(DATA_PATH, "variants", system + "_train.txt")
+        gen_file = os.path.join(DATA_PATH, "avatar", "variants", system + "_relgan_" + str(suffix) + "_j" + str(job) + "_" + strategy + ".txt")
+        csv_file = os.path.join(DATA_PATH, "avatar", "variants", system + "_relgan_" + str(suffix) + "_j" + str(job) + "_" + strategy + "_generalization.csv")
+        xes_file = os.path.join(DATA_PATH, "avatar", "variants", system + "_relgan_" + str(suffix) + "_j" + str(job) + "_" + strategy + "_generalization.xes")
+        pn_file = os.path.join(DATA_PATH, "pns", system, pn)
 
-    pn_file = os.path.join('data/pns', system, pn)
 
     """ READ FILES AND CONVERT TO XES """
     traces = readFile(train_file,gen_file, unique=True)

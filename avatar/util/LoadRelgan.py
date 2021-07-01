@@ -3,15 +3,20 @@ import numpy as np
 import json
 import os
 import time
+from conf.settings import DATA_PATH
 
+WORK_PATH = os.path.abspath(os.getcwd())
 
 class LoadRelgan():
     def __init__(self, system, suffix, job):
-        path = os.path.join("data/avatar/sgans/", system, str(job), "tf_logs/ckpt/")
+        if DATA_PATH is None:
+            path = os.path.join(WORK_PATH, "data", "avatar","sgans", system, str(job), "tf_logs", "ckpt")
+        else:
+            path = os.path.join(DATA_PATH, "avatar", "sgans", system, str(job), "tf_logs", "ckpt")
 
-        saver = tf.train.import_meta_graph(path + system + ".adv_model-" + str(suffix) + ".meta")
+        saver = tf.train.import_meta_graph(os.path.join(path, system + ".adv_model-" + str(suffix) + ".meta"))
 
-        self.data_model = path + system + ".adv_model-" + str(suffix) + ""
+        self.data_model = os.path.join(path, system + ".adv_model-" + str(suffix))
 
         self.disc_in_x = tf.get_default_graph().get_tensor_by_name('x_real:0')
 
@@ -23,7 +28,7 @@ class LoadRelgan():
         self.sess = tf.Session()
         saver.restore(self.sess, self.data_model)
 
-        with open(path + "iw_dict_" + system + ".json") as handle:
+        with open(os.path.join(path, "iw_dict_" + system + ".json")) as handle:
             self.iw = json.loads(handle.read())
 
         self.wi_dict = {v: k for k, v in self.iw.items()}

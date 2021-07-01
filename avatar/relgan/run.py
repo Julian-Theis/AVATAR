@@ -6,6 +6,9 @@ from avatar.relgan.real.real_gan.real_loader import RealDataLoader
 from avatar.relgan.utils.text_process import text_precess
 from avatar.relgan.utils.utils import pp
 import avatar.relgan.models as models
+from conf.settings import DATA_PATH
+
+WORK_PATH = os.path.abspath(os.getcwd())
 
 def main(given_args=None):
     parser = argparse.ArgumentParser(description='Train and run a RelGAN')
@@ -60,7 +63,15 @@ def main(given_args=None):
     parser.add_argument('--gen-emb-dim', default=32, type=int, help="generator embedding dimension")
     parser.add_argument('--dis-emb-dim', default=64, type=int, help="TOTAL discriminator embedding dimension")
     parser.add_argument('--num-rep', default=64, type=int, help="number of discriminator embedded representations")
-    parser.add_argument('--data-dir', default='/data/julian/data/relgan/data', type=str,
+
+    if DATA_PATH is None:
+        def_dir = os.path.join(WORK_PATH, "data", "avatar", "sgans")
+    else:
+        def_dir = os.path.join(DATA_PATH, "avatar", "sgans")
+
+    parser.add_argument('--data-dir',
+                        default=def_dir,
+                        type=str,
                         help='Where data data is stored')
 
     if given_args is None:
@@ -72,12 +83,17 @@ def main(given_args=None):
 
     print(config)
 
-    data_file = os.path.join(args.data_dir, '{}.txt'.format(args.dataset))
+    #data_file = os.path.join(args.data_dir, "..", "train_data", '{}.txt'.format(args.dataset))
 
-    if args.dataset == 'pb_system_4_1_10':
+    if DATA_PATH is None:
+        seq_vocab_file = os.path.join(WORK_PATH, "data", "variants", str(args.dataset) + "_train.txt")
+    else:
+        seq_vocab_file = os.path.join(DATA_PATH, "variants", str(args.dataset) + "_train.txt")
+
+    if args.dataset == 'pb_system_4_1_10' or '_s10' in args.dataset:
         args.batch_size = 32
 
-    seq_len, vocab_size = text_precess(data_file)
+    seq_len, vocab_size = text_precess(seq_vocab_file)
     config['seq_len'] = seq_len
     config['vocab_size'] = vocab_size
     print('seq_len: %d, vocab_size: %d' % (seq_len, vocab_size))
