@@ -3,7 +3,7 @@ This project is the implementation of the *AdVersarial system vArianT AppRoximat
 
 ```
 @article{theis2020adversarial,
-  title={Adversarial System Variant Approximation to Quantify Process Model Generalization}, 
+  title={{Adversarial System Variant Approximation to Quantify Process Model Generalization}}, 
   author={J. {Theis} and H. {Darabi}},
   journal={IEEE Access}, 
   year={2020},
