@@ -14,7 +14,7 @@ intervaltree==3.0.2
 ipython==5.3.0
 ipython-genutils==0.2.0
 Jinja2==2.11.3
-joblib==0.13.2
+joblib==1.2.0
 Keras==2.2.4
 Keras-Applications==1.0.8
 Keras-Preprocessing==1.0.9
